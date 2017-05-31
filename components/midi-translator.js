@@ -15,6 +15,16 @@ module.exports = {
     "B, Cb"
   ],
 
+  chords: {
+    "047": "C Major"
+  },
+
+  getChord: function(midiNoteArray) {
+    var chord = this.chords[midiNoteArray.sort().join('')];
+    if (chord) return chord;
+    return "";
+  },
+
   getNote: function(midiNote) {
     return this.notes[midiNote];
   }

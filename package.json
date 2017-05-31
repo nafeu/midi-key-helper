@@ -4,7 +4,7 @@
   "description": "A NodeJS midi keyboard learning tool",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "keywords": [
     "NodeJS",
@@ -17,9 +17,11 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "chai": "^4.0.0",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "midi": "^0.9.5",
+    "mocha": "^3.4.2",
     "socket.io": "^2.0.1"
   }
 }

@@ -67,7 +67,7 @@ input.getPortName(0);
 // Configure a callback.
 input.on('message', function(deltaTime, message) {
   // console.log('m:' + message + ' d:' + deltaTime);
-  var note = mt.getNote(parseInt(message[1]) % 12);
+  var note = parseInt(message[1]) % 12;
 
   if (message[0] == 144) {
     if (!_.includes(noteBuffer, note)) {
@@ -79,7 +79,7 @@ input.on('message', function(deltaTime, message) {
     });
   }
 
-  io.emit("message", { message: noteBuffer });
+  io.emit("message", { message: mt.getChord(noteBuffer) });
 });
 
 // Open the first available input port.
