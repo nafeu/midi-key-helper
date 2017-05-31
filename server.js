@@ -1,5 +1,6 @@
 var midi       = require('midi')
   , _          = require('lodash')
+  , mt         = require('./components/midi-translator')
   , express    = require('express')
   , app        = express()
   , http       = require('http')
@@ -65,12 +66,13 @@ input.getPortName(0);
 
 // Configure a callback.
 input.on('message', function(deltaTime, message) {
-  console.log('m:' + message + ' d:' + deltaTime);
-
-  var note = parseInt(message[1]) % 12
+  // console.log('m:' + message + ' d:' + deltaTime);
+  var note = mt.getNote(parseInt(message[1]) % 12);
 
   if (message[0] == 144) {
-    noteBuffer.push(note)
+    if (!_.includes(noteBuffer, note)) {
+      noteBuffer.push(note)
+    }
   } else {
     noteBuffer = _.remove(noteBuffer, function(n) {
       return n != note;
