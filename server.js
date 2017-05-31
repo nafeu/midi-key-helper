@@ -1,4 +1,56 @@
 var midi = require('midi');
+var express = require('express');
+var app = express();
+var http = require('http');
+var server = require('http').Server(app);
+var bodyParser = require('body-parser');
+var io = require('socket.io')(server);
+
+// ---------------------------------------------------------------------------
+// Configuration
+// ---------------------------------------------------------------------------
+
+// Server
+server.listen(process.env.PORT || 8000, function(){
+  console.log('[ server.js ] Listening on port ' + server.address().port);
+});
+
+// Socket.io configs
+io.set('heartbeat timeout', 4000);
+io.set('heartbeat interval', 2000);
+
+// Express server configs
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
+
+// ---------------------------------------------------------------------------
+// Socket Event Listeners
+// ---------------------------------------------------------------------------
+
+io.on('connection', function(socket){
+
+  console.log(socket.id + " connected...");
+
+  socket.on('disconnect', function(){
+    console.log(socket.id + " disconnected...");
+  });
+
+});
+
+// ---------------------------------------------------------------------------
+// Express API
+// ---------------------------------------------------------------------------
+
+app.get('/api/test', function(req, res){
+  res.status(200).send('OK');
+});
+
+// ---------------------------------------------------------------------------
+// Application Logic
+// ---------------------------------------------------------------------------
 
 // Set up a new input.
 var input = new midi.input();
@@ -12,23 +64,17 @@ input.getPortName(0);
 // Configure a callback.
 input.on('message', function(deltaTime, message) {
   console.log('m:' + message + ' d:' + deltaTime);
-  console.log('NOTE: ', parseInt(message[1]) % 12)
+  var note = parseInt(message[1]) % 12
+  io.emit("message", { message: note });
 });
 
 // Open the first available input port.
 console.log("[ server.js ] Opening first available midi port...");
 input.openPort(0);
 
-// Sysex, timing, and active sensing messages are ignored
-// by default. To enable these message types, pass false for
-// the appropriate type in the function below.
-// Order: (Sysex, Timing, Active Sensing)
-// For example if you want to receive only MIDI Clock beats
-// you should use
-// input.ignoreTypes(true, false, true)
+// Meta: (Sysex, Timing, Active Sensing)
 input.ignoreTypes(false, false, false);
-
-// // ... receive MIDI messages ...
+// input.ignoreTypes(true, false, true)
 
 process.on("SIGTERM", function(){
   console.log("[ server.js ] Closing port...");

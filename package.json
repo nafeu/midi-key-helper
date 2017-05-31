@@ -16,6 +16,9 @@
   "author": "Nafeu Nasir",
   "license": "MIT",
   "dependencies": {
-    "midi": "^0.9.5"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "midi": "^0.9.5",
+    "socket.io": "^2.0.1"
   }
 }
