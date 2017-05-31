@@ -16,7 +16,7 @@ module.exports = {
   ],
 
   chords: {
-    "047": "C Major"
+    "047": "C"
   },
 
   getChord: function(midiNoteArray) {
