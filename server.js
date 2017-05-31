@@ -1,10 +1,10 @@
-var midi = require('midi');
-var express = require('express');
-var app = express();
-var http = require('http');
-var server = require('http').Server(app);
-var bodyParser = require('body-parser');
-var io = require('socket.io')(server);
+var midi       = require('midi')
+  , express    = require('express')
+  , app        = express()
+  , http       = require('http')
+  , server     = require('http').Server(app)
+  , bodyParser = require('body-parser')
+  , io         = require('socket.io')(server);
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -53,7 +53,8 @@ app.get('/api/test', function(req, res){
 // ---------------------------------------------------------------------------
 
 // Set up a new input.
-var input = new midi.input();
+var input      = new midi.input()
+  , noteBuffer = []
 
 // Count the available input ports.
 input.getPortCount();
