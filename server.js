@@ -1,4 +1,5 @@
 var midi       = require('midi')
+  , _          = require('lodash')
   , express    = require('express')
   , app        = express()
   , http       = require('http')
@@ -65,8 +66,18 @@ input.getPortName(0);
 // Configure a callback.
 input.on('message', function(deltaTime, message) {
   console.log('m:' + message + ' d:' + deltaTime);
+
   var note = parseInt(message[1]) % 12
-  io.emit("message", { message: note });
+
+  if (message[0] == 144) {
+    noteBuffer.push(note)
+  } else {
+    noteBuffer = _.remove(noteBuffer, function(n) {
+      return n != note;
+    });
+  }
+
+  io.emit("message", { message: noteBuffer });
 });
 
 // Open the first available input port.
