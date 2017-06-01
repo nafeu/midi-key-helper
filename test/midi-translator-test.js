@@ -19,7 +19,8 @@ describe("Midi signal translation", function(){
 
     it("should convert an array of numbers into a chord", function(){
 
-      expect(midiTranslator.getChord([0, 4, 7])).to.equal("C");
+      expect(midiTranslator.getChord([0, 4, 7])).to.equal("C Major");
+      expect(midiTranslator.getChord([0, 3, 7, 10])).to.equal("C Minor 7th (with 5th)");
       expect(midiTranslator.getChord([0])).to.equal("");
 
     });
