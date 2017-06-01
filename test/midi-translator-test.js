@@ -1,15 +1,15 @@
 var expect = require("chai").expect;
-var mt = require("../components/midi-translator");
+var midiTranslator = require("../components/midi-translator");
 
 
 describe("Midi signal translation", function(){
 
   describe("Note recognition", function(){
 
-    it("should convert 0-11 number to a musical note", function(){
+    it("should convert 0-11 number to a musical note array", function(){
 
-      expect(mt.getNote(0)).to.equal("C, B#");
-      expect(mt.getNote(11)).to.equal("B, Cb");
+      expect(midiTranslator.getNote(0)).to.eql(['C', 'B#']);
+      expect(midiTranslator.getNote(11)).to.eql(["B", "Cb"]);
 
     });
 
@@ -19,8 +19,8 @@ describe("Midi signal translation", function(){
 
     it("should convert an array of numbers into a chord", function(){
 
-      expect(mt.getChord([0, 4, 7])).to.equal("C");
-      expect(mt.getChord([0])).to.equal("");
+      expect(midiTranslator.getChord([0, 4, 7])).to.equal("C");
+      expect(midiTranslator.getChord([0])).to.equal("");
 
     });
 
