@@ -1,12 +1,12 @@
-var midi       = require('midi')
-  , _          = require('lodash')
-  , mt         = require('./components/midi-translator')
-  , express    = require('express')
-  , app        = express()
-  , http       = require('http')
-  , server     = require('http').Server(app)
-  , bodyParser = require('body-parser')
-  , io         = require('socket.io')(server);
+var midi           = require('midi')
+  , _              = require('lodash')
+  , midiTranslator = require('./components/midi-translator')
+  , express        = require('express')
+  , app            = express()
+  , http           = require('http')
+  , server         = require('http').Server(app)
+  , bodyParser     = require('body-parser')
+  , io             = require('socket.io')(server);
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -66,6 +66,7 @@ input.getPortName(0);
 
 // Configure a callback.
 input.on('message', function(deltaTime, message) {
+
   // console.log('m:' + message + ' d:' + deltaTime);
   var note = parseInt(message[1]) % 12;
 
@@ -79,7 +80,11 @@ input.on('message', function(deltaTime, message) {
     });
   }
 
-  io.emit("message", { message: mt.getChord(noteBuffer) });
+  io.emit("update", {
+    chord: midiTranslator.getChord(noteBuffer),
+    note: noteBuffer.map(function(note){ return midiTranslator.getNote(note)})
+  });
+
 });
 
 // Open the first available input port.

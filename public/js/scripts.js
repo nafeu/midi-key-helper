@@ -4,11 +4,13 @@ socket = io({
 
 $(document).ready(function(){
 
-  var body = $("body");
+  var main = $("#main");
+  var contentNote = $("#content-note");
+  var contentChord = $("#content-chord");
 
-  socket.on("message", function(data){
-    console.log("[ socket ] Message : ", data);
-    body.html(data.message);
+  socket.on("update", function(data){
+    contentNote.text(data.note);
+    contentChord.text(data.chord);
   });
 
 });
