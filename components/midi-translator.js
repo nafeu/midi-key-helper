@@ -26,7 +26,7 @@ module.exports = {
   },
 
   getNote: function(midiNote) {
-    return this.notes[midiNote];
+    return this.notes[midiNote % 12];
   }
 
 };

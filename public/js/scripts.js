@@ -7,11 +7,19 @@ $(document).ready(function(){
   var main = $("#main");
   var contentNote = $("#content-note");
   var contentChord = $("#content-chord");
+  var colors = {
+    "red" : "#e74c3c"
+  };
 
   socket.on("update", function(data){
     contentNote.empty();
-    data.note.forEach(function(item){
-      contentNote.append(createNoteElement(item));
+    data.noteArray.forEach(function(note){
+      contentNote.append(createNoteElement(note));
+    });
+    $(".key-black").css("background-color", "black");
+    $(".key-white").css("background-color", "white");
+    data.keyArray.forEach(function(key){
+      $(".key-"+key).css("background-color", colors.red);
     });
     contentChord.text(data.chord);
   });
@@ -35,4 +43,8 @@ function createNoteElement(noteArray) {
   out.append(noteAlt);
 
   return out;
+}
+
+function setBackgroundColor(id, color) {
+  $(id).style("background-color", color);
 }

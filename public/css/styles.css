@@ -13,7 +13,7 @@ body {
 #main {
   background-color: white;
   padding: 40px;
-  min-height: 400px;
+  min-height: 265px;
   border-bottom: 5px solid #2c3e50;
 }
 
@@ -46,4 +46,32 @@ body {
 .note-main {
   font-size: 1.5em;
   display: block;
+}
+
+.onscreen-key {
+  width: 6.6%;
+  box-shadow:0px 0px 0px 2px #ecf0f1 inset;
+  height: 150px;
+  float: left;
+  border-radius: 5px;
+}
+
+.key-white {
+  background-color: white;
+}
+
+.key-black {
+  position: absolute;
+  background-color: black;
+  top: 0px;
+  width: 4%;
+  height: 90px;
+}
+
+#onscreen-keyboard {
+  position: relative;
+}
+
+#keyboard-area {
+  padding: 40px;
 }
