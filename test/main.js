@@ -30,8 +30,6 @@ describe("Midi signal interpretation", function(){
 
     it("should take midi signal and return fully interpreted data", function(){
 
-      interpreter.keyBuffer = [];
-
       expect(interpreter.interpretMidiInput({
         deltaTime: null,
         message: [144, 0, 1],
@@ -39,6 +37,24 @@ describe("Midi signal interpretation", function(){
         chord: '',
         keyArray: [0],
         noteArray: [["C", "B#"]]
+      });
+
+      expect(interpreter.interpretMidiInput({
+        deltaTime: null,
+        message: [144, 4, 1],
+      })).to.deep.equal({
+        chord: 'C Major (No 5th)',
+        keyArray: [0, 4],
+        noteArray: [["C", "B#"], ["E", "Fb"]]
+      });
+
+      expect(interpreter.interpretMidiInput({
+        deltaTime: null,
+        message: [144, 7, 1],
+      })).to.deep.equal({
+        chord: 'C Major',
+        keyArray: [0, 4, 7],
+        noteArray: [["C", "B#"], ["E", "Fb"], ["G"]]
       });
 
     });
