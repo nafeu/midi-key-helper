@@ -55,8 +55,8 @@ app.get('/api/test', function(req, res){
 // ---------------------------------------------------------------------------
 
 // Set up a new input.
-var input      = new midi.input()
-  , keyBuffer = []
+var input     = new midi.input()
+  , keyBuffer = [];
 
 // Count the available input ports.
 input.getPortCount();
@@ -72,7 +72,7 @@ input.on('message', function(deltaTime, message) {
 
   if (message[0] == 144) {
     if (!_.includes(keyBuffer, key)) {
-      keyBuffer.push(key)
+      keyBuffer.push(key);
     }
   } else {
     keyBuffer = _.remove(keyBuffer, function(k) {
@@ -83,7 +83,7 @@ input.on('message', function(deltaTime, message) {
   io.emit("update", {
     chord: midiTranslator.getChord(keyBuffer),
     keyArray: keyBuffer,
-    noteArray: keyBuffer.map(function(key){ return midiTranslator.getNote(key)}),
+    noteArray: keyBuffer.map(function(key){ return midiTranslator.getNote(key); }),
   });
 
 });
