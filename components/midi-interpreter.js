@@ -24,7 +24,7 @@ module.exports = function(){
     chords: {
 
       // C
-      "047": "C Major",
+      "047":  "C Major",
       "04": "C Major (No 5th)",
       "0411": "C Major 7th",
       "04711": "C Major 7th (with 5th)",
@@ -44,7 +44,14 @@ module.exports = function(){
     },
 
     getChord: function(midiNoteArray) {
-      var chordHash = midiNoteArray.sort(function (a, b) {  return a - b;  }).join('');
+      var chordHash = midiNoteArray
+        .sort(function (a, b){
+          return a - b;
+        })
+        .map(function(key){
+          return key % 12;
+        })
+        .join('');
       var chord = this.chords[chordHash];
       if (chord) return chord;
       return "";
@@ -56,7 +63,7 @@ module.exports = function(){
 
     interpretMidiInput: function(data) {
 
-      var key = parseInt(data.message[1]) % 12;
+      var key = parseInt(data.message[1]) % 24;
       var _this = this;
 
       if (data.message[0] == 144) {
