@@ -1,12 +1,12 @@
-var midi           = require('midi')
-  , _              = require('lodash')
-  , midiTranslator = require('./components/midi-translator')
-  , express        = require('express')
-  , app            = express()
-  , http           = require('http')
-  , server         = require('http').Server(app)
-  , bodyParser     = require('body-parser')
-  , io             = require('socket.io')(server);
+var midi        = require('midi')
+  , _           = require('lodash')
+  , interpreter = require('./components/midi-interpreter')()
+  , express     = require('express')
+  , app         = express()
+  , http        = require('http')
+  , server      = require('http').Server(app)
+  , bodyParser  = require('body-parser')
+  , io          = require('socket.io')(server);
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -14,7 +14,7 @@ var midi           = require('midi')
 
 // Server
 server.listen(process.env.PORT || 8000, function(){
-  console.log('[ server.js ] Listening on port ' + server.address().port);
+  console.log('[ app.js ] Server listening on port ' + server.address().port);
 });
 
 // Socket.io configs
@@ -55,48 +55,37 @@ app.get('/api/test', function(req, res){
 // ---------------------------------------------------------------------------
 
 // Set up a new input.
-var input     = new midi.input()
-  , keyBuffer = [];
+var input = new midi.input();
 
 // Count the available input ports.
-input.getPortCount();
+if (input.getPortCount()) {
 
-// Get the name of a specified input port.
-input.getPortName(0);
+  // Get the name of a specified input port.
+  input.getPortName(0);
 
-// Configure a callback.
+  // Open the first available input port.
+  console.log("[ app.js ] Opening first available midi port...");
+  input.openPort(0);
+
+  // Meta: (Sysex, Timing, Active Sensing)
+  input.ignoreTypes(false, false, false);
+  // input.ignoreTypes(true, false, true)
+
+  process.on("SIGTERM", function(){
+    console.log("[ app.js ] Closing port...");
+    input.closePort();
+  });
+
+} else {
+  console.log("No MIDI port opened, please connect a device and restart application...");
+}
+
 input.on('message', function(deltaTime, message) {
 
   // console.log('m:' + message + ' d:' + deltaTime);
-  var key = parseInt(message[1]) % 12;
+  io.emit("update", interpreter.interpretMidiInput({
+    deltaTime: deltaTime,
+    message: message
+  }));
 
-  if (message[0] == 144) {
-    if (!_.includes(keyBuffer, key)) {
-      keyBuffer.push(key);
-    }
-  } else {
-    keyBuffer = _.remove(keyBuffer, function(k) {
-      return k != key;
-    });
-  }
-
-  io.emit("update", {
-    chord: midiTranslator.getChord(keyBuffer),
-    keyArray: keyBuffer,
-    noteArray: keyBuffer.map(function(key){ return midiTranslator.getNote(key); }),
-  });
-
-});
-
-// Open the first available input port.
-console.log("[ server.js ] Opening first available midi port...");
-input.openPort(0);
-
-// Meta: (Sysex, Timing, Active Sensing)
-input.ignoreTypes(false, false, false);
-// input.ignoreTypes(true, false, true)
-
-process.on("SIGTERM", function(){
-  console.log("[ server.js ] Closing port...");
-  input.closePort();
 });
