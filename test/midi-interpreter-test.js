@@ -26,6 +26,15 @@ describe("Midi signal interpretation", function(){
 
   });
 
+  describe("Tone interpretation", function(){
+
+    it("should convert a into a 0-23 number into a Tone.js friendly freq", function(){
+      expect(interpreter.getTone(0)).to.equal("C3");
+      expect(interpreter.getTone(12)).to.equal("C4");
+    })
+
+  });
+
   describe("Full signal interpretation", function(){
 
     it("should take midi signal and return fully interpreted data", function(){

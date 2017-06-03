@@ -1,5 +1,6 @@
 const $ = require("jquery")
 const {ipcRenderer} = require('electron')
+const Tone = require('tone')
 
 function createNoteElement(noteArray) {
   const out = $("<div>", {class: "note-block"})
@@ -21,9 +22,10 @@ function createNoteElement(noteArray) {
 }
 
 $(document).ready(function(){
-  const contentNote = $("#content-note");
-  const contentChord = $("#content-chord");
-  const colors = {"red": "#e74c3c"};
+  const contentNote = $("#content-note")
+  const contentChord = $("#content-chord")
+  const colors = {"red": "#e74c3c"}
+  const synth = new Tone.PolySynth(6, Tone.Synth).toMaster();
 
   ipcRenderer.on("update", function(event, data){
     contentNote.empty();
@@ -44,4 +46,14 @@ $(document).ready(function(){
 
     contentChord.text(data.chord);
   });
+
+  ipcRenderer.on("keydown", function(event, data){
+    synth.triggerAttack(data);
+  });
+
+  ipcRenderer.on("keyup", function(event, data){
+    synth.triggerRelease(data);
+  });
+
+
 });

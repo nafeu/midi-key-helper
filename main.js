@@ -21,7 +21,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null
@@ -87,5 +87,11 @@ input.on('message', function(deltaTime, message) {
     deltaTime: deltaTime,
     message: message
   }));
+
+  if (message[0] === 144) {
+    win.webContents.send("keydown", interpreter.getTone(message[1]));
+  } else {
+    win.webContents.send("keyup", interpreter.getTone(message[1]));
+  }
 
 });

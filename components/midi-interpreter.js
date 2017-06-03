@@ -66,6 +66,16 @@ module.exports = function(){
       return this.notes[midiNote % 12];
     },
 
+    getTone: function(midiNote) {
+      const [tone] = this.notes[midiNote % 12]
+
+      if (midiNote % 24 < 12) {
+        return `${tone}3`
+      }
+
+      return `${tone}4`
+    },
+
     interpretMidiInput: function(data) {
       const key = parseInt(data.message[1], 10) % 24;
       const self = this;
