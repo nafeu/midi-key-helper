@@ -1,6 +1,5 @@
-socket = io({
-  'reconnection': false
-});
+var $ = require("jquery");
+var ipcRenderer = require('electron').ipcRenderer
 
 $(document).ready(function(){
 
@@ -11,7 +10,7 @@ $(document).ready(function(){
     "red" : "#e74c3c"
   };
 
-  socket.on("update", function(data){
+  ipcRenderer.on("update", function(event, data){
     contentNote.empty();
     data.noteArray.forEach(function(note){
       contentNote.append(createNoteElement(note));
@@ -43,8 +42,4 @@ function createNoteElement(noteArray) {
   out.append(noteAlt);
 
   return out;
-}
-
-function setBackgroundColor(id, color) {
-  $(id).style("background-color", color);
 }

@@ -1,6 +1,6 @@
 # Midi Key Helper
 
-A tool designed to help teach/practice piano chords and note memorization on a midi keyboard. Built using NodeJS, Express.js, Socket.io, midi, and jQuery.
+A tool designed to help teach/practice piano chords and note memorization on a midi keyboard. Built using NodeJS, Electron.io, midi, tone.js and jQuery.
 
 [![Build Status](https://travis-ci.org/nafeu/midi-key-helper.svg?branch=master)](https://travis-ci.org/nafeu/midi-key-helper)
 

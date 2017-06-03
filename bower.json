@@ -1,0 +1,29 @@
+{
+  "name": "midi-key-helper",
+  "description": "A NodeJS midi keyboard learning tool",
+  "main": "main.js",
+  "authors": [
+    "Nafeu Nasir"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "NodeJS",
+    "CreateJS",
+    "midi",
+    "keyboard",
+    "music"
+  ],
+  "homepage": "https://github.com/nafeu/midi-key-helper",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "roboto-fontface": "^0.7.0",
+    "flexboxgrid": "^6.3.2"
+  }
+}
