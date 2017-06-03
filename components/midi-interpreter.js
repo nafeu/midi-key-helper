@@ -1,6 +1,4 @@
-var _ = require('lodash');
-
-module.exports = function(){
+module.exports = function(_){
 
   return {
 
@@ -24,7 +22,7 @@ module.exports = function(){
     chords: {
 
       // C
-      "047":  "C Major",
+      "047": "C Major",
       "04": "C Major (No 5th)",
       "0411": "C Major 7th",
       "04711": "C Major 7th (with 5th)",
@@ -39,22 +37,27 @@ module.exports = function(){
       "0310": "C Minor 7th",
       "03710": "C Minor 7th (with 5th)",
       "03610": "C Minor 7th Flat Five",
-      "03810": "C Minor 7th Sharp Five",
+      "03810": "C Minor 7th Sharp Five"
 
     },
 
     getChord: function(midiNoteArray) {
-      var chordHash = midiNoteArray
-        .sort(function (a, b){
+      var chordHash = midiNoteArray.
+        sort(function (a, b){
           return a - b;
-        })
-        .map(function(key){
+        }).
+        map(function(key){
           return key % 12;
-        })
-        .join('');
-      var chord = this.chords[chordHash];
-      if (chord) return chord;
-      return "";
+        }).
+        join('');
+
+      const chord = this.chords[chordHash];
+
+      if (chord) {
+        return chord
+      }
+
+      return ""
     },
 
     getNote: function(midiNote) {
@@ -62,26 +65,26 @@ module.exports = function(){
     },
 
     interpretMidiInput: function(data) {
+      const key = parseInt(data.message[1], 10) % 24;
+      const self = this;
 
-      var key = parseInt(data.message[1]) % 24;
-      var _this = this;
-
-      if (data.message[0] == 144) {
-        if (!_.includes(_this.keyBuffer, key)) {
-          _this.keyBuffer.push(key);
+      if (data.message[0] === 144) {
+        if (!_.includes(self.keyBuffer, key)) {
+          self.keyBuffer.push(key);
         }
       } else {
-        _this.keyBuffer = _.remove(_this.keyBuffer, function(k) {
-          return k != key;
+        self.keyBuffer = _.remove(self.keyBuffer, function(k) {
+          return k !== key;
         });
       }
 
       return {
-        chord: _this.getChord(_this.keyBuffer),
-        keyArray: _this.keyBuffer,
-        noteArray: _this.keyBuffer.map(function(key){ return _this.getNote(key); }),
+        chord: self.getChord(self.keyBuffer),
+        keyArray: self.keyBuffer,
+        noteArray: self.keyBuffer.map(function(rawInput) {
+          return self.getNote(rawInput)
+        })
       };
-
     }
 
   };

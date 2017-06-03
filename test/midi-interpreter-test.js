@@ -1,5 +1,6 @@
-var expect = require("chai").expect;
-var interpreter = require("../components/midi-interpreter")();
+const {expect} = require("chai");
+const _ = require("lodash")
+const interpreter = require("../components/midi-interpreter")(_);
 
 describe("Midi signal interpretation", function(){
 
@@ -32,7 +33,7 @@ describe("Midi signal interpretation", function(){
 
       expect(interpreter.interpretMidiInput({
         deltaTime: null,
-        message: [144, 0, 1],
+        message: [144, 0, 1]
       })).to.deep.equal({
         chord: '',
         keyArray: [0],
@@ -41,7 +42,7 @@ describe("Midi signal interpretation", function(){
 
       expect(interpreter.interpretMidiInput({
         deltaTime: null,
-        message: [144, 4, 1],
+        message: [144, 4, 1]
       })).to.deep.equal({
         chord: 'C Major (No 5th)',
         keyArray: [0, 4],
@@ -50,7 +51,7 @@ describe("Midi signal interpretation", function(){
 
       expect(interpreter.interpretMidiInput({
         deltaTime: null,
-        message: [144, 7, 1],
+        message: [144, 7, 1]
       })).to.deep.equal({
         chord: 'C Major',
         keyArray: [0, 4, 7],
