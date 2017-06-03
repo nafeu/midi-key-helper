@@ -30,20 +30,20 @@ body {
 
 .note-block {
   display: inline-block;
-  padding: 10px;
+  padding: 7px;
   text-align: center;
   background-color: black;
   color: white;
-  margin: 5px;
+  margin: 4px;
   border-radius: 5px;
 }
 
 .note-alt {
-  font-size: 0.5em;
+  font-size: 0.3em;
 }
 
 .note-main {
-  font-size: 1.5em;
+  font-size: 1em;
   display: block;
 }
 
