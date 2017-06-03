@@ -1,12 +1,12 @@
 # Midi Key Helper
 
-A tool designed to help teach/practice piano chords and note memorization on a midi keyboard. Built using NodeJS, Electron.io, midi, tone.js and jQuery.
+A desktop app designed to help teach/practice piano chords and note memorization on a midi keyboard. Built using NodeJS, Electron.io, midi, Tone.js and jQuery.
 
 [![Build Status](https://travis-ci.org/nafeu/midi-key-helper.svg?branch=master)](https://travis-ci.org/nafeu/midi-key-helper)
 
 ### Requirements
 
-OSX, Node.js (v7), Midi Keyboard (I use the AKAI Professional MPKmini)
+OSX, Node.js (v7), Midi Keyboard (I use the AKAI Professional [MPKmini](http://www.akaipro.com/product/mpkmini))
 
 ### Installation
 
@@ -18,12 +18,11 @@ npm install
 
 ### Development / Basic Usage
 
-- Connect your midi keyboard and then run `node server.js`
-- Open `http://localhost:8000` in a web browser and play on your keyboard!
+- Connect your midi keyboard and then run `npm start`
 
-<!-- #### Running Tests
+#### Running Tests
 
-Use `npm test` -->
+Use `npm test`
 
 ### Credits
 
