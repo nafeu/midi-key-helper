@@ -1,5 +1,5 @@
 language: node_js
 node_js:
 - 7
-install: npm install mocha chai
+install: npm install mocha chai lodash
 script: npm test

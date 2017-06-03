@@ -1,6 +1,5 @@
 const {expect} = require("chai");
-const _ = require("lodash")
-const interpreter = require("../components/midi-interpreter")(_);
+const interpreter = require("../components/midi-interpreter")();
 
 describe("Midi signal interpretation", function(){
 

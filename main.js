@@ -2,8 +2,7 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
 const midi = require('midi')
-const _ = require('lodash')
-const interpreter = require('./components/midi-interpreter')(_)
+const interpreter = require('./components/midi-interpreter')()
 
 // ---------------------------------------------------------------------------
 // Configuration
